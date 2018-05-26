@@ -1,0 +1,26 @@
+{
+  "name": "koa-proj",
+  "version": "1.0.0",
+  "description": "koa-project",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/crazyguagua/koa_proj.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/crazyguagua/koa_proj/issues"
+  },
+  "homepage": "https://github.com/crazyguagua/koa_proj#readme",
+  "dependencies": {
+    "koa": "^2.5.1",
+    "koa-router": "^7.4.0",
+    "koa-session2": "^2.2.6",
+    "log4js": "^2.6.0",
+    "nunjucks": "^3.1.2"
+  }
+}
