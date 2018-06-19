@@ -4,7 +4,7 @@
   "description": "koa-project",
   "main": "app.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "NODE_ENV=dev node --use_strict app.js"
   },
   "repository": {
     "type": "git",
@@ -21,6 +21,11 @@
     "koa-router": "^7.4.0",
     "koa-session2": "^2.2.6",
     "log4js": "^2.6.0",
-    "nunjucks": "^3.1.2"
+    "mime": "^2.3.1",
+    "mysql2": "^1.5.3",
+    "mz": "^2.7.0",
+    "node-uuid": "^1.4.8",
+    "nunjucks": "^3.1.2",
+    "sequelize": "^4.37.10"
   }
 }

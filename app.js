@@ -3,6 +3,11 @@ const controller = require('./middlewares/controller')
 const mylog4js = require('./middlewares/log4js')
 const session = require("koa-session2");
 const templating = require('./middlewares/templating')
+// const db = require('./middlewares/db')
+const model = require('./middlewares/model')
+
+const staticFile = require('./middlewares/static-file')
+
 
 const sysLogger = mylog4js.getLogger('system');
 
@@ -27,6 +32,9 @@ app.use(session({
     key:'SESSIONID',
     maxAge:30*60*1000
 }))
+
+app.use(staticFile('/static/', __dirname + '/static'));
+    
 app.use(templating('views', {
     noCache: !isProduction,
     watch: !isProduction

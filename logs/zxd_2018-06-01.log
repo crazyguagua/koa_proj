@@ -1,0 +1,10 @@
+[2018-06-01T11:04:34.242] [INFO] [null] system - process.env.NODE_ENV=[dev]
+[2018-06-01T11:04:34.245] [INFO] [null] system - current env:开发环境
+[2018-06-01T11:42:48.313] [INFO] [null] system - process.env.NODE_ENV=[dev]
+[2018-06-01T11:42:48.315] [INFO] [null] system - current env:开发环境
+[2018-06-01T11:43:36.097] [INFO] [null] system - process.env.NODE_ENV=[dev]
+[2018-06-01T11:43:36.099] [INFO] [null] system - current env:开发环境
+[2018-06-01T17:57:48.677] [INFO] [null] system - process.env.NODE_ENV=[dev]
+[2018-06-01T17:57:48.679] [INFO] [null] system - current env:开发环境
+[2018-06-01T17:58:47.879] [INFO] [null] system - process.env.NODE_ENV=[dev]
+[2018-06-01T17:58:47.881] [INFO] [null] system - current env:开发环境
