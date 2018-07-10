@@ -18,6 +18,8 @@
   "homepage": "https://github.com/crazyguagua/koa_proj#readme",
   "dependencies": {
     "koa": "^2.5.1",
+    "koa-body": "^4.0.4",
+    "koa-bodyparser": "^4.2.1",
     "koa-router": "^7.4.0",
     "koa-session2": "^2.2.6",
     "log4js": "^2.6.0",
