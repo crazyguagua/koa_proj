@@ -2,8 +2,8 @@ module.exports={
     host:'127.0.0.1',
     port:'3306',
     dialect:'mysql',
-    database:'mall',
-    username:'root',
+    database:'resume',
+    username:'zxd',
     password:'123',
     rootPath:''
 }

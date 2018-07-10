@@ -1,11 +1,15 @@
 body{
     font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
 }
+.overflow-hidden{
+    overflow:hidden;
+}
 *{
     box-sizing: border-box;
 }
 .main-info{
     background:rgb(142, 140, 140);
+    overflow-x: hidden;
 }
 .main-content::before {
     /* never visible - this is used in jQuery to check the current MQ */
@@ -54,6 +58,26 @@ body{
     height:100%;
     border-radius: 50%;
 }
+.second-screen{
+    position: relative;
+}
+.second-screen .mask{
+    position: absolute;
+    left:0;
+    top:0;
+    width:100%;
+    height: 100%;
+    background-color: rgba(28, 23, 38, 0.6);
+    visibility: hidden;
+    transition:opacity 0.5s 0.4s, visibility 0s 0.9s;
+    opacity: 0;
+    z-index: 2;
+}
+.fold-is-open .second-screen .mask{
+    visibility: visible;
+    opacity: 1;
+    transition:opacity .1s 0s ,visibility 0s;
+}
 .second-screen:after{
     content:'';
     clear:both;
@@ -97,9 +121,188 @@ body{
     .box .more{
         opacity: 0;
     }
+    .box p{
+        text-indent: 2em;
+        line-height: 30px;
+    }
     .box a:hover .more{
         opacity: 1;
     }
+    /*folding-panel 样式*/
+    .folding-panel{
+        position: fixed;
+        top:0;
+        bottom:0;
+        width:800px;
+        visibility: hidden;
+        z-index:2;
+        height:100%;
+        left:50%;
+        right:auto;
+        transform:translate(-50%);
+        transition: visibility 0s 0.7s;
+    }
+    /* 关闭按钮 begin*/
+    .folding-panel .close{
+        position: absolute;
+        right:10px;
+        top:10px;
+        width:32px;
+        height:32px;
+        opacity: 0;
+        transition: opacity .3s .5s;
+    }
+    .folding-panel .close:before,.folding-panel .close:after{
+        content:"";
+        background:#544173;
+        position: absolute;
+        left:50%;
+        top:50%;
+        height:3px;
+        width:26px;
+    }
+    .folding-panel .close:before{
+        transform:translate3d(-50%,-50%,0) rotate(45deg)
+    }
+    .folding-panel .close:after{
+        transform:translate3d(-50%,-50%,0) rotate(-45deg)
+    }
+
+    /*close 按钮 end*/
+
+    /*弹出框内容样式开始*/
+    .folding-panel .folding-content{
+        padding:64px;
+        overflow-y:auto;
+        visibility: hidden;
+        position: absolute;
+        left:0;
+        top:0;
+        width:100%;
+        height: 100%;
+        transition: visibility 0s 0.4s;
+    }
+    .folding-panel .fold-content>*{
+        opacity: 0;
+        transform:translateY(40px);
+        transition:all .2s 0s;
+    }
+    .folding-panel .folding-content h2{
+        color:rgb(80, 16, 80);
+        font-size: 26px;
+        opacity: 0;
+        transform: translateY(20px);
+    }
+
+    .folding-panel.is-open .folding-content{
+        transition:visibility 0s .7s;
+        visibility: visible;
+    }
+    .folding-panel.is-open .folding-content h2{
+        opacity: 1;
+        transform: translateY(0);
+    }
+    .folding-panel .folding-content p{
+        text-indent: 20px;
+        transform: translateY(20px);
+        opacity: 0;
+        line-height: 2;
+        font-size: 1em;
+        color: #696969;
+        margin-top:30px;
+        transition:transform .2s 0s,opacity .2s 0s;
+    }
+    .folding-panel.is-open .folding-content>*{
+        opacity: 1;
+        transform: translateY(0);
+        transition: transform .2s .7s,opacity .2s .7s;
+    }
+    /* .folding-panel.is-open .folding-content p {
+        transition: transform 0.2s 0s, opacity 0.2s 0s;
+    } */
+    /*弹出框内容样式结束*/
+
+
+
+
+    /*折叠父容器 3d必须要有父容器*/
+    .folding-panel .folding-left,.folding-panel .folding-right{
+        width:50%;
+        float:left;
+        height:100%;
+        perspective: 2000px;
+        position: relative;
+    }
+
+    /*perspective-origin 设置  左边和右边 分别设置  */
+    .folding-panel .folding-left{
+        perspective-origin: 100% 50%;
+    }
+    .folding-panel .folding-right{
+        perspective-origin: 0 50%;
+    }
+    /*左半边右半边共有样式*/
+    .folding-panel .folding-left:after,.folding-panel .folding-right:after{
+        content:"";
+        position: absolute;
+        left:0;
+        top:0;
+        height:100%;
+        width:100%;
+        background-color:#f9fafa;
+        transition: transform 0.5s 0.4s, background-color 0.5s 0.4s;
+        backface-visibility: hidden;
+    }
+    /*左半边样式*/
+    .folding-panel .folding-left:after{
+        transform:translateX(100%) rotateY(90deg);
+        transform-origin: left center;
+    }
+    /*右半边样式*/
+    .folding-panel .folding-right:after{
+        transform:translateX(-100%) rotateY(-90deg);
+        transform-origin: right center;
+    }
+
+    /*展开以后的样式 panel*/
+    .folding-panel.is-open{
+        visibility: visible;
+        transition: visibility 0s 0s;
+    }
+    /*展开后左半边的样式*/
+    .folding-panel.is-open .folding-left:after{
+        transform:translateX(0) rotateY(0);
+        transition: transform .9s 0s, background-color 0.5s 0s;
+    }
+    /*展开后右半边的样式*/
+    .folding-panel.is-open .folding-right:after{
+        transform: translateX(0) rotateY(0);
+        transition: transform .9s 0s, background-color 0.5s 0s;
+    }
+
+    .folding-panel.is-open {
+        visibility: visible;
+        -webkit-transition: visibility 0s .5s;
+        -moz-transition: visibility 0s .5s;
+        transition: visibility 0s .5s;
+    }
+    .folding-panel.is-open .close{
+        opacity: 1;
+    }
+
+
+   
+   .second-screen .box{
+       transition: all .5s;
+   }
+    /*左边两个色块向左平移*/
+    .fold-is-open .second-screen .box:nth-of-type(2n){
+        transform:translateX(-400px);
+    }
+   /*右边两个色块*/
+   .fold-is-open .second-screen .box{
+       transform:translateX(400px);
+   }
 }
 .box.about{
     background: #93a2f5;
@@ -125,19 +328,3 @@ body{
     cursor: pointer;
 }
 
-/*folding-panel 样式*/
-.folding-panel{
-    position: absolute;
-    top:0;
-    bottom:0;
-    width:100%;
-    visibility: hidden;
-    z-index:1;
-}
-
-folding-panel.is-open {
-    visibility: visible;
-    -webkit-transition: visibility 0s 0s;
-    -moz-transition: visibility 0s 0s;
-    transition: visibility 0s 0s;
-  }
