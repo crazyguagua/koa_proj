@@ -1,5 +1,6 @@
 
 const db = require('../middlewares/db')
+const moment = require('moment')
 module.exports=db.defineModel('resumeBaseInfo',{
     'name':{
         type:db.STRING(100),
@@ -17,6 +18,13 @@ module.exports=db.defineModel('resumeBaseInfo',{
     'mobile':{
         type:db.STRING(20),
         allowNull:false
+    },
+    'birth':{
+        type:db.DATE,
+        allowNull:true,
+        get(){
+            return moment(this.getDataValue('birth')).format('YYYY-MM-DD');
+        }
     },
     'avatar': {type:db.STRING(100),allowNull:true} //头像
 })

@@ -18,6 +18,7 @@ const syslog = sysLogger.info.bind(sysLogger)
 
 const bodyParser = require('koa-bodyparser');
 const koaBody = require('koa-body');
+const uuid = require('node-uuid');
 
 syslog(`process.env.NODE_ENV=[${process.env.NODE_ENV}]`)
 const isProduction = process.env.NODE_ENV ==='production'
@@ -27,14 +28,26 @@ const rest = require('./middlewares/rest')
 
 const app = new Koa()
 const port = 3002
-app.use(async(ctx,next)=>{
-    console.log(`method:${ctx.request.method},url${ctx.request.url}`)
-    await next()
-})
-app.use(async (ctx,next)=>{
-    let now = new Date()
-    await next()
-    console.log(`time cost ${new Date()-now}`)
+
+app.use(async (ctx, next) => {
+    
+    let logid = uuid.v4().replace(/-/g, "");
+    sysLogger.addContext('logid', logid);
+    syslog(`处理请求【 ${ctx.request.method} ${ctx.request.url}】...`);
+    var
+        start = new Date().getTime(),
+        execTime;
+        
+    await next();
+
+    syslog("ctx.response.status=" + ctx.response.status);
+    // if (ctx.response.status == 404) {
+    //     ctx.response.redirect('/static/html/404.html');
+    // }
+
+    ctx.response.set('logid', logid);
+    execTime = new Date().getTime() - start;
+    ctx.response.set('X-Response-Time', `${execTime}ms`); 
 })
 
 app.use(session({
@@ -52,7 +65,13 @@ app.use(koaBody({
 }));
 // parse request body:
 app.use(bodyParser());
+const saveParams = async (ctx,next)=>{
+    let paraStr = JSON.stringify(ctx.request.body)
 
+    syslog(`【 ${ctx.request.method} ${ctx.request.url}】请求参数【${paraStr}】...`)
+    await next()
+}
+app.use(saveParams)
 
 app.use(templating('views', {
     noCache: !isProduction,
