@@ -31,7 +31,9 @@ const updateBaseInfo=async (baseInfo,files)=>{
             reader.pipe(upStream);
             // 删除原来的图片
             let oldPicPath = resume.avatar
-            if(oldPicPath)fs.unlinkSync(oldPicPath)
+            if(oldPicPath && fs.existsSync(oldPicPath)){
+                fs.unlinkSync(oldPicPath)
+            }
 
             baseInfo.avatar = filePath
         }else{
@@ -40,10 +42,10 @@ const updateBaseInfo=async (baseInfo,files)=>{
         //版本加1 
         baseInfo.version = resume.version++
         baseInfo.updatedAt =  moment(new Date()).format('YYYY-MM-DD HH:mm:ss');
-        resumeBaseInfo.update(baseInfo,{where:{id:baseInfo.id}})
+        resumeBaseInfo.update(baseInfo,{where:{id:baseInfo.id}},{transaction: transaction} )
     }catch(e){
         syslog(e.stack);
-        if (timeTransaction) timeTransaction.rollback();
+        if (transaction) transaction.rollback();
         throw new APIError(CONST.RET_SAVE_ERR,`保存简历失败`)
     }
     
@@ -59,9 +61,9 @@ module.exports={
             if(resume){
                 throw new APIError(CONST.RET_ERROR_UNIQUE,`${baseInfo.name}的简历已存在`)
             }
-            let timeTransaction;
+            let transaction;
             try {   
-                timeTransaction = await sequelize.transaction();
+                transaction = await sequelize.transaction();
 
                 const reader = fs.createReadStream(files.path);
                 let fileName = files.name
@@ -76,11 +78,11 @@ module.exports={
                 const upStream = fs.createWriteStream(filePath);        // 创建可写流
                 reader.pipe(upStream);
                 baseInfo.avatar = filePath    
-                resume = await resumeBaseInfo.create(baseInfo);
-                timeTransaction.commit();
+                resume = await resumeBaseInfo.create(baseInfo,{ transaction: transaction });
+                transaction.commit();
             } catch (e) {
                 syslog(e.stack);
-                if (timeTransaction) timeTransaction.rollback();
+                if (transaction) transaction.rollback();
                 throw new APIError(CONST.RET_SAVE_ERR,`保存简历失败`)
             }
             return resume;
@@ -88,7 +90,7 @@ module.exports={
     },
    
     findBaseInfoPage: async ({offset,limit,q})=>{
-        var orderArr = [['createdAt','Desc']];
+        var orderArr = [['updatedAt','Desc']];
         let where ={};
         if(q&&Object.keys(q).length>0){
             let $or =[];

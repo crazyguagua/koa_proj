@@ -12,7 +12,15 @@ function generateId() {
 let sequelize = new Sequelize(config.database,config.username,config.password,{
     host:config.host,
     prot:config.port,
-    dialect:config.dialect
+    dialect:config.dialect,
+    pool: {
+        max: 5,
+        min: 0,
+        idle: 5000,
+        acquire: 20000,
+        evict: 30000,
+        handleDisconnects: true
+    }
 })
 
 console.log(`...........................database connected.........................`)

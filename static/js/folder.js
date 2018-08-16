@@ -1,4 +1,14 @@
+window.log = console.log.bind()
 jQuery(document).ready(function($){
+
+	// var getBaseInfo= function(){
+	// 	$.ajax(
+	// 		{url:'/api/resume/daba4698-d33a-41d4-b1c8-1f166a92df84',success:function(d){
+	// 			log(d)
+	// 		}}
+	// 	)
+	// }
+	// getBaseInfo();
 	var gallery = $('.second-screen .box'),
 		foldingPanel = $('.folding-panel'),
 		mainContent = $('.main-info');
