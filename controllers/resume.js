@@ -6,6 +6,7 @@ module.exports={
     //保存简历基本信息
     'POST /api/resume/baseInfo/save': async (ctx, next) => {
         let resume = ctx.request.body
+        let files = ctx.request.files.file;
         let rules={
             name:[{required:true,message:'姓名必填'}],
             gender:[{required:true,message:'性别必填'}],
@@ -17,11 +18,45 @@ module.exports={
         if(ret){
             throw new APIError(CONST.RET_ERROR_PARAM_ERR,ret)
         }
-        let saved = resumeService.saveBaseInfo(resume)
+        let saved = await resumeService.saveBaseInfo(resume,files) //如果不写 await 就直接返回操作成功了
         ctx.restOK(saved,'保存简历基本信息成功')
     },
     //查询简历列表
-    'GET /api/resume/list': async (ctx, next) => {
-        ctx.restList(list)
+    'POST /api/resume/list': async (ctx, next) => {
+        let params = ctx.request.body
+        let offset = params.startRow
+        let limit = params.maxSize
+        let q=params.q;
+        if(isNaN(offset)||isNaN(limit)){
+            throw new APIError(CONST.RET_ERROR_NO_PAGE_PARAM,'分页接口需指定offset和limit')
+        }
+        let list = await resumeService.findBaseInfoPage({offset,limit,q})
+        list.rows.forEach(element => {
+            let avatar = element.avatar
+            element.avatar = avatar?`http://localhost:3002/${avatar}`:null
+        });
+        ctx.restList(list.rows,list.count);
+    },
+
+    //删除简历
+    'GET /api/resume/delete/:resumeId': async (ctx,next)=>{
+        let resumeId = ctx.params.resumeId
+        if(!resumeId||resumeId=='undefined'){
+            throw new APIError(CONST.RET_PARAM_ERR,"简历id未指定")
+        }
+        await resumeService.delete(resumeId)
+       
+        ctx.restOK(null,'删除简历成功')
+
+    },
+
+    //根据id查询
+    'GET /api/resume/:resumeId': async (ctx,next)=>{
+        let resumeId = ctx.params.resumeId
+        if(!resumeId||resumeId=='undefined'){
+            throw new APIError(CONST.RET_PARAM_ERR,"简历id未指定")
+        }
+        let resume = await resumeService.findById(resumeId)
+        ctx.restObj(resume)
     }
 }

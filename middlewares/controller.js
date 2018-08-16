@@ -1,7 +1,13 @@
 
 const fs = require('fs');
 const router = require('koa-router')()
-
+// const sendfile = require('koa-sendfile');
+// router.get('/upload/:name', async (ctx)=>{
+//     const name = ctx.params.name;
+//     const path = `upload/${name}`;
+//     ctx.attachment(path);
+//     await sendfile(ctx, path);
+// })
 function addMapping(router, mapping) {
     for (var url in mapping) {
         if (url.startsWith('GET ')) {

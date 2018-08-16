@@ -2,3 +2,5 @@
 *.log
 /logs
 package-lock.json
+/.vscode
+/upload

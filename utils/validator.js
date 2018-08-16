@@ -22,7 +22,7 @@ const validatorMap = {
 }
 
 const getStrLength = function(str){
-    let strB = new Buffer(str)
+    let strB = Buffer.from(str)
     return strB.length
 }
 const multiValidate = function ({val,key,obj,message,required,min,max,type}) {

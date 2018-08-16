@@ -19,11 +19,12 @@ const syslog = sysLogger.info.bind(sysLogger)
 const bodyParser = require('koa-bodyparser');
 const koaBody = require('koa-body');
 const uuid = require('node-uuid');
+var cors = require('koa2-cors'); //跨域中间件
 
 syslog(`process.env.NODE_ENV=[${process.env.NODE_ENV}]`)
 const isProduction = process.env.NODE_ENV ==='production'
 syslog(`current env:${isProduction?'生产环境':'开发环境'}`)
-
+global.syslog = syslog
 const rest = require('./middlewares/rest')
 
 const app = new Koa()
@@ -39,8 +40,11 @@ app.use(async (ctx, next) => {
         execTime;
         
     await next();
-
-    syslog("ctx.response.status=" + ctx.response.status);
+    if(/json/.test(ctx.response.type)){
+        //json 才打印响应
+        syslog("返回数据【" + JSON.stringify(ctx.response.body)+"】");
+    }
+    
     // if (ctx.response.status == 404) {
     //     ctx.response.redirect('/static/html/404.html');
     // }
@@ -56,15 +60,15 @@ app.use(session({
 }))
 
 app.use(staticFile('/static/', __dirname + '/static'));
-
+app.use(staticFile('/upload/',__dirname+'/upload'))
 app.use(koaBody({ 
     multipart: true,
     formidable: {
-        maxFileSize: 200 * 1024 * 1024 //设置上传文件大小最大限制，默认2M
+        maxFileSize: 2000 * 1024 * 1024 //设置上传文件大小最大限制，默认2M
     } 
 }));
 // parse request body:
-app.use(bodyParser());
+// app.use(bodyParser({multipart: true}));
 const saveParams = async (ctx,next)=>{
     let paraStr = JSON.stringify(ctx.request.body)
 
@@ -80,6 +84,7 @@ app.use(templating('views', {
 
 app.use(rest.restify())
 
+app.use(cors())
 //路由放到后面
 app.use(controller())
 

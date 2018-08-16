@@ -10,6 +10,14 @@
             "request": "launch",
             "name": "启动程序",
             "program": "${workspaceFolder}/app.js"
+        },
+        {
+            "name":"Attach",
+            "type":"node",
+            "request":"attach",
+            "port":9229,
+            "address":"localhost",
+            "restart":true
         }
     ]
 }

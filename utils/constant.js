@@ -1,4 +1,8 @@
 module.exports={
     RET_ERROR_PARAM_ERR:-1,
-    RET_ERROR_UNIQUE:-2
+    RET_ERROR_UNIQUE:-2,
+    RET_ERROR_NO_PAGE_PARAM:-3,
+    RET_SAVE_ERR:-4,
+    RET_PARAM_ERR:-5,
+    RET_DATA_NOT_EXSIST:-6//数据不存在
 }

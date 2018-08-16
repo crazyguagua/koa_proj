@@ -19,3 +19,4 @@ js_files.forEach(element => {
 module.exports.sync= async ()=>{
     await db.sync()
 }
+module.exports.sequelize = db.sequelize
