@@ -40,9 +40,10 @@ const updateBaseInfo=async (baseInfo,files)=>{
             baseInfo.avatar = resume.avatar //没修改头像的情况
         }
         //版本加1 
-        baseInfo.version = resume.version++
+        baseInfo.version = resume.version+1
         baseInfo.updatedAt =  moment(new Date()).format('YYYY-MM-DD HH:mm:ss');
         resumeBaseInfo.update(baseInfo,{where:{id:baseInfo.id}},{transaction: transaction} )
+        transaction.commit();
     }catch(e){
         syslog(e.stack);
         if (transaction) transaction.rollback();

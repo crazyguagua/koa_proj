@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>我的简历</title>
+    <title>{{resume.name}}的个人简历</title>
     <link rel="stylesheet" href="/static/css/reset.css">
     <link rel="stylesheet" href="/static/css/index.css">
     <link rel="shortcut icon" href="/static/favicon.ico" />
@@ -15,7 +15,7 @@
     <div class="main-info">
         <div class="first-screen">
             <h1 class="intro-name"> Hello,my name is
-                <span>DOGE</span>
+                <span>{{resume.name}}</span>
             </h1>
             <h3 class="intro-job">
                 <p>here is my blog.</p>
@@ -23,7 +23,7 @@
             </h3>
             <div class="avatar">
                 <a href="">
-                    <img src="/static/images/timg.jpeg" alt="">
+                    <img src="{{resume.avatar}}" alt="">
                 </a>
             </div>
         </div>
