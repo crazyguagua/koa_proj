@@ -6,6 +6,7 @@ module.exports = {
     'GET /': async (ctx, next) => {
         //查询出个人简历
         let resume = await resumeService.findById(resumeId)
+        console.log(resume)
         ctx.render('index.html', { 
             resume:resume
         })

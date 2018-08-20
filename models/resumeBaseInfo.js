@@ -15,6 +15,18 @@ module.exports=db.defineModel('resumeBaseInfo',{
         type:db.STRING(100),
         allowNull:false
     },
+    'welcomeMsg':{
+        type:db.STRING(300),
+        allowNull:false
+    },
+    'jobDesc':{
+        type:db.STRING(300),
+        allowNull:false
+    },
+    'description':{
+        type:db.STRING(1000),
+        allowNull:false
+    },
     'mobile':{
         type:db.STRING(20),
         allowNull:false

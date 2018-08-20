@@ -57,6 +57,27 @@ module.exports={
             throw new APIError(CONST.RET_PARAM_ERR,"简历id未指定")
         }
         let resume = await resumeService.findById(resumeId)
+        resume.avatar=resume.avatar?`http://localhost:3002/${resume.avatar}`:null
         ctx.restObj(resume)
+    },
+
+    //保存个人简介
+    'POST /api/resume/saveDescription': async(ctx,next)=>{
+        let description = ctx.request.body
+        let resumeId = description.id
+        if(!resumeId){
+            throw new APIError(CONST.RET_PARAM_ERR,"简历id未指定")
+        }
+        let rules={
+            'welcomeMsg':[{required:true,message:'欢迎语必填'}],
+            'jobDesc':[{required:true,message:'职业描述必填'}],
+            'description':[{required:true,message:'描述必填'}]
+        }
+        let ret = validator(description,rules)
+        if(ret){
+            throw new APIError(CONST.RET_ERROR_PARAM_ERR,ret)
+        }
+        await resumeService.saveDescription(description)
+        ctx.restOK(null,"修改个人简介成功");
     }
 }

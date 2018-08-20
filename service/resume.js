@@ -119,6 +119,12 @@ module.exports={
     findById: async(resumeId)=>{
         let resume = await resumeBaseInfo.findOne({where: {'id':resumeId}});
         return resume
+    },
+    saveDescription:async(description)=>{
+        let id = description.id
+        delete description.id
+        let ret =  await resumeBaseInfo.update(description,{where:{'id':id}})
+        return ret;
     }
 
 }
