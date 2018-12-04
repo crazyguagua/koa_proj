@@ -1,5 +1,5 @@
 module.exports={
-    host:'127.0.0.1',
+    host:'118.31.11.27',
     port:'3306',
     dialect:'mysql',
     database:'resume',
