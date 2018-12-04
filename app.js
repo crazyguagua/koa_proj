@@ -16,7 +16,7 @@ const sysLogger = mylog4js.getLogger('system');
 
 const syslog = sysLogger.info.bind(sysLogger)
 
-const bodyParser = require('koa-bodyparser');
+// const bodyParser = require('koa-bodyparser');
 const koaBody = require('koa-body');
 const uuid = require('node-uuid');
 var cors = require('koa2-cors'); //跨域中间件
