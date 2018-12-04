@@ -5,7 +5,7 @@
   "main": "app.js",
   "scripts": {
     "start": "NODE_ENV=dev nodemon --inspect --use_strict app.js",
-    "prod":"NODE_ENV=production --inspect --use_strict app.js"
+    "prod":"NODE_ENV=production pm2 start app.js"
   },
   "repository": {
     "type": "git",
