@@ -3,7 +3,7 @@ module.exports={
     port:'3306',
     dialect:'mysql',
     database:'resume',
-    username:'zxd',
-    password:'123',
+    username:'root',
+    password:'jsecode@123',
     rootPath:''
 }
