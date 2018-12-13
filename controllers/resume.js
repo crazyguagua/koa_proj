@@ -33,7 +33,7 @@ module.exports={
         let list = await resumeService.findBaseInfoPage({offset,limit,q})
         list.rows.forEach(element => {
             let avatar = element.avatar
-            element.avatar = avatar?`http://localhost:3002/${avatar}`:null
+            element.avatar = avatar?`http://localhost:3003/${avatar}`:null
         });
         ctx.restList(list.rows,list.count);
     },
@@ -57,7 +57,7 @@ module.exports={
             throw new APIError(CONST.RET_PARAM_ERR,"简历id未指定")
         }
         let resume = await resumeService.findById(resumeId)
-        resume.avatar=resume.avatar?`http://localhost:3002/${resume.avatar}`:null
+        resume.avatar=resume.avatar?`http://localhost:3003/${resume.avatar}`:null
         ctx.restObj(resume)
     },
 

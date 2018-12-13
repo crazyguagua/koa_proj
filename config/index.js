@@ -4,7 +4,7 @@ let configProd = './config-prod'
 let config
 if(process.env.NODE_ENV === 'production'){
     config = require(configProd)
-}else if(process.env.NODE_ENV === 'test'){
+}else if(process.env.NODE_ENV === 'dev'){
     config = require(configDev)
 }else{
     config = require(configTest)

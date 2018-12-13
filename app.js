@@ -28,7 +28,7 @@ global.syslog = syslog
 const rest = require('./middlewares/rest')
 
 const app = new Koa()
-const port = 3002
+const port = 3003
 
 app.use(async (ctx, next) => {
     
