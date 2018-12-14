@@ -12,5 +12,6 @@ module.exports={
             url:'https://gw.alicdn.com/imgextra/i4/35/O1CN01Ws7oXJ1C84LWzJ2lP_!!35-0-lubanu.jpg_790x10000Q75.jpg_.webp',title:'利物浦'
         }]
         ctx.restList(list,list.count);
-    },
+    }
+    
 }
